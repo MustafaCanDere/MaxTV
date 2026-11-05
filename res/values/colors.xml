@@ -2,9 +2,9 @@
 <resources>
     <color name="bg">#FF101418</color>
     <color name="panel">#FF1C232B</color>
-    <color name="focus">#FF2F80ED</color>
+    <color name="focus">#FF3D6BE0</color>
     <color name="selected">#FF24476E</color>
-    <color name="accent">#FF2F80ED</color>
+    <color name="accent">#FF5B8CFF</color>
     <color name="text">#FFFFFFFF</color>
     <color name="subtext">#FFA9B4C0</color>
 </resources>

@@ -22,7 +22,7 @@ public class Channel {
     /** Favoriler için tek satırlık kayıt (sekme ile ayrılmış). */
     public String serialize() {
         return clean(name) + "\t" + clean(url) + "\t" + clean(group) + "\t"
-                + clean(userAgent) + "\t" + clean(referrer);
+                + clean(userAgent) + "\t" + clean(referrer) + "\t" + clean(logo);
     }
 
     public static Channel deserialize(String line) {
@@ -34,6 +34,7 @@ public class Channel {
         if (p.length > 2) c.group = p[2];
         if (p.length > 3 && p[3].length() > 0) c.userAgent = p[3];
         if (p.length > 4 && p[4].length() > 0) c.referrer = p[4];
+        if (p.length > 5) c.logo = p[5];
         return c;
     }
 

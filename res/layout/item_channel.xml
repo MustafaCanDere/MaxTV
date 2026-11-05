@@ -11,10 +11,19 @@
 
     <TextView
         android:id="@+id/number"
-        android:layout_width="64dp"
+        android:layout_width="56dp"
         android:layout_height="wrap_content"
         android:textColor="@color/subtext"
         android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="72dp"
+        android:layout_height="44dp"
+        android:layout_marginRight="16dp"
+        android:padding="4dp"
+        android:background="@drawable/logo_bg"
+        android:scaleType="fitCenter" />
 
     <TextView
         android:id="@+id/name"

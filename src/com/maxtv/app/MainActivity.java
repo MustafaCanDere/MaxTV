@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,13 +25,9 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -58,6 +55,7 @@ public class MainActivity extends Activity {
             {"🌍", "Tüm dünya", "world:"},
             {"⭐", "Favorilerim", "fav:"},
             {"🔗", "Kendi listem", "custom:"},
+            {"🔄", "Güncelleme", "update:"},
     };
 
     // ---------- Kategoriler ----------
@@ -148,7 +146,38 @@ public class MainActivity extends Activity {
             public void afterTextChanged(Editable s) { applyFilter(); }
         });
 
+        grid.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            View lastSelected;
+            @Override
+            public void onItemSelected(AdapterView<?> p, View v, int position, long id) {
+                if (lastSelected != null && lastSelected != v) zoom(lastSelected, 1f);
+                if (v != null) zoom(v, 1.08f);
+                lastSelected = v;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> p) {
+                if (lastSelected != null) zoom(lastSelected, 1f);
+                lastSelected = null;
+            }
+        });
+
+        isTv = getPackageManager().hasSystemFeature("android.software.leanback");
         showRegions();
+        Updater.checkOnStart(this);
+    }
+
+    private boolean isTv = true;
+
+    private static void zoom(View v, float s) {
+        v.animate().scaleX(s).scaleY(s).setDuration(150).start();
+    }
+
+    private String versionName() {
+        try {
+            return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     @Override
@@ -171,8 +200,8 @@ public class MainActivity extends Activity {
         progress.setVisibility(View.GONE);
         breadcrumb.setText("");
         question.setText("Nereden kanal izlemek istersiniz?");
-        status.setText("Yön tuşlarıyla seçin, OK'a basın.");
-        hint.setText("Geri: çıkış");
+        status.setText(isTv ? "Yön tuşlarıyla seçin, OK'a basın." : "Bir kutuya dokunun.");
+        hint.setText(isTv ? "Geri: çıkış" : "");
         tiles.clear();
         tileData.clear();
 
@@ -187,6 +216,7 @@ public class MainActivity extends Activity {
         for (String[] r : REGIONS) {
             String sub = "";
             if (r[2].equals("fav:")) sub = favorites.size() + " kanal";
+            if (r[2].equals("update:")) sub = "Sürüm " + versionName();
             tiles.add(new String[]{r[0], r[1], sub});
             tileData.add(r);
         }
@@ -297,7 +327,9 @@ public class MainActivity extends Activity {
         String crumb = region[1] + (category != null ? "  ›  " + category[1] : "");
         breadcrumb.setText(crumb);
         question.setText("Kanal seçin");
-        hint.setText("OK: izle   •   OK'a uzun bas: favori ★   •   Geri: " + (skippedCategory ? "bölge seçimi" : "kategori seçimi"));
+        hint.setText(isTv
+                ? "OK: izle   •   OK'a uzun bas: favori ★   •   Geri: " + (skippedCategory ? "bölge seçimi" : "kategori seçimi")
+                : "Dokun: izle   •   Uzun bas: favori ★");
         grid.setVisibility(View.GONE);
         list.setVisibility(View.VISIBLE);
         search.setVisibility(View.VISIBLE);
@@ -347,6 +379,7 @@ public class MainActivity extends Activity {
         String[] d = tileData.get(position);
         if (step == STEP_REGION) {
             if (d[0].equals("resume:")) resumeLast();
+            else if (d[2].equals("update:")) Updater.check(this, true);
             else chooseRegion(d);
         } else if (step == STEP_CATEGORY) {
             chooseCategory(d);
@@ -463,7 +496,7 @@ public class MainActivity extends Activity {
                 String error = null;
                 boolean fromCache = false;
                 try {
-                    download(url, cache);
+                    Net.download(url, cache, null);
                     result = parseFile(cache);
                 } catch (Exception e) {
                     error = e.getMessage() == null ? e.toString() : e.getMessage();
@@ -510,47 +543,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    private static void download(String url, File dest) throws IOException {
-        HttpURLConnection conn = null;
-        String current = url;
-        for (int redirects = 0; redirects < 6; redirects++) {
-            conn = (HttpURLConnection) new URL(current).openConnection();
-            conn.setConnectTimeout(15000);
-            conn.setReadTimeout(30000);
-            conn.setInstanceFollowRedirects(false);
-            conn.setRequestProperty("User-Agent", "MaxTV/1.1 (Android TV)");
-            int code = conn.getResponseCode();
-            if (code >= 300 && code < 400) {
-                String loc = conn.getHeaderField("Location");
-                conn.disconnect();
-                if (loc == null) throw new IOException("Yönlendirme hatası");
-                current = new URL(new URL(current), loc).toString();
-                continue;
-            }
-            if (code != 200) {
-                conn.disconnect();
-                throw new IOException("Sunucu yanıtı " + code);
-            }
-            break;
-        }
-        File tmp = new File(dest.getPath() + ".tmp");
-        InputStream in = conn.getInputStream();
-        OutputStream out = new FileOutputStream(tmp);
-        try {
-            byte[] buf = new byte[16384];
-            int n;
-            while ((n = in.read(buf)) > 0) out.write(buf, 0, n);
-        } finally {
-            out.close();
-            in.close();
-            conn.disconnect();
-        }
-        if (!tmp.renameTo(dest)) {
-            dest.delete();
-            if (!tmp.renameTo(dest)) throw new IOException("Önbelleğe yazılamadı");
-        }
-    }
-
     // ================= Adaptörler =================
 
     private class TileAdapter extends BaseAdapter {
@@ -585,7 +577,8 @@ public class MainActivity extends Activity {
             ((TextView) v.findViewById(R.id.number)).setText(String.valueOf(shownNumbers.get(position)));
             String name = favorites.containsKey(c.url) ? "★ " + c.name : c.name;
             ((TextView) v.findViewById(R.id.name)).setText(name);
-            ((TextView) v.findViewById(R.id.group)).setText(c.group);
+            ((TextView) v.findViewById(R.id.group)).setText(c.group.replace(";", " • "));
+            ImageLoader.load((ImageView) v.findViewById(R.id.logo), c.logo, R.mipmap.ic_launcher, 144);
             return v;
         }
     }

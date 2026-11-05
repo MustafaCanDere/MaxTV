@@ -6,9 +6,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -27,6 +30,9 @@ public class PlayerActivity extends Activity {
     private TextView title, info, numberInput;
     private String typedNumber = "";
     private boolean prepared = false;
+    private boolean isTv = true;
+    private ImageView logo;
+    private GestureDetector gestures;
 
     private final Runnable hideOverlay = new Runnable() {
         public void run() { overlay.setVisibility(View.GONE); }
@@ -51,6 +57,34 @@ public class PlayerActivity extends Activity {
         title = (TextView) findViewById(R.id.title);
         info = (TextView) findViewById(R.id.info);
         numberInput = (TextView) findViewById(R.id.numberInput);
+        logo = (ImageView) findViewById(R.id.logo);
+        isTv = getPackageManager().hasSystemFeature("android.software.leanback");
+        gestures = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) { return true; }
+
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                toggleOverlay();
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float vx, float vy) {
+                if (e1 == null || e2 == null) return false;
+                float dy = e2.getY() - e1.getY();
+                float dx = e2.getX() - e1.getX();
+                if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 80) {
+                    step(dy < 0 ? +1 : -1); // yukarı kaydır: sonraki kanal
+                    return true;
+                }
+                if (Math.abs(dx) > 80) {
+                    step(dx < 0 ? +1 : -1); // sola kaydır: sonraki kanal
+                    return true;
+                }
+                return false;
+            }
+        });
 
         video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -73,7 +107,7 @@ public class PlayerActivity extends Activity {
         video.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
-                showError("Bu kanal şu an açılamıyor (yayın kapalı veya bölgeye kapalı olabilir). ▲/▼ ile başka kanala geçin.");
+                showError("Bu kanal şu an açılamıyor (yayın kapalı veya bölgeye kapalı olabilir). " + (isTv ? "▲/▼ ile" : "Kaydırarak") + " başka kanala geçin.");
                 return true;
             }
         });
@@ -118,9 +152,12 @@ public class PlayerActivity extends Activity {
         int number = ChannelStore.numbers.size() > ChannelStore.index
                 ? ChannelStore.numbers.get(ChannelStore.index) : ChannelStore.index + 1;
         title.setText(number + "  " + c.name);
+        ImageLoader.load(logo, c.logo, R.mipmap.ic_launcher, 192);
         String text = c.group.length() > 0 ? c.group : "";
         if (message != null) text = message;
-        else text = (text.length() > 0 ? text + "   •   " : "") + "▲▼ kanal değiştir   •   OK bilgi   •   Geri: liste";
+        else text = text.replace(";", " • ") + (text.length() > 0 ? "   •   " : "")
+                + (isTv ? "▲▼ kanal değiştir   •   OK bilgi   •   Geri: liste"
+                        : "Kaydır: kanal değiştir   •   Dokun: bilgi");
         info.setText(text);
         overlay.setVisibility(View.VISIBLE);
         handler.removeCallbacks(hideOverlay);
@@ -163,6 +200,20 @@ public class PlayerActivity extends Activity {
     }
 
     @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestures.onTouchEvent(event) || super.onTouchEvent(event);
+    }
+
+    private void toggleOverlay() {
+        if (overlay.getVisibility() == View.VISIBLE && prepared) {
+            handler.removeCallbacks(hideOverlay);
+            overlay.setVisibility(View.GONE);
+        } else {
+            showOverlay(null);
+        }
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
@@ -178,12 +229,7 @@ public class PlayerActivity extends Activity {
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_INFO:
-                if (overlay.getVisibility() == View.VISIBLE && prepared) {
-                    handler.removeCallbacks(hideOverlay);
-                    overlay.setVisibility(View.GONE);
-                } else {
-                    showOverlay(null);
-                }
+                toggleOverlay();
                 return true;
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_MEDIA_PAUSE:
