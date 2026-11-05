@@ -1,0 +1,9 @@
+{
+  "_not": "Ülkelere göre genel olarak en çok izlenen kanallar (sıralı). Uygulama bu adları ücretsiz listedeki kanallarla eşleştirir; listede olmayanlar görünmez.",
+  "tr": ["TRT 1", "ATV", "Show TV", "Kanal D", "Star TV", "NOW", "TV8", "TRT Haber", "Habertürk", "NTV", "CNN Türk", "A Haber", "Halk TV", "Sözcü TV", "TV100", "Kanal 7", "Beyaz TV", "360", "TV8,5", "TRT Spor", "TRT Spor Yıldız", "A Spor", "TRT Çocuk", "Minika Çocuk", "Minika Go", "TRT Belgesel", "TRT Müzik", "TRT 2", "Teve2", "TGRT Haber", "Ülke TV", "Bloomberg HT", "Kral Pop", "Power Türk", "Number1", "Tele1", "Flash Haber", "Ekol TV", "Kanal 24", "24 TV", "TVNet", "Show Türk", "TRT Avaz", "TRT World", "TRT Kurdî", "TRT Arabi", "Lalegül TV", "Diyanet TV", "Semerkand TV", "Cine5"],
+  "az": ["AzTV", "İctimai", "ARB", "Xəzər TV", "Space TV", "Real TV", "ATV Azad", "CBC", "Medeniyyet TV", "İdman TV", "ARB Günəş", "Region TV"],
+  "de": ["Das Erste", "ZDF", "RTL", "Sat.1", "ProSieben", "VOX", "kabel eins", "RTLZWEI", "ZDFneo", "3sat", "arte", "WDR", "NDR", "BR", "SWR", "MDR", "hr-fernsehen", "rbb", "phoenix", "tagesschau24", "n-tv", "WELT", "KiKA", "Super RTL", "DMAX", "Tele 5", "sixx", "ONE", "ZDFinfo", "Sport1"],
+  "uk": ["BBC One", "ITV", "Channel 4", "BBC Two", "Channel 5", "Sky News", "BBC News", "GB News", "ITV2", "E4", "More4", "Dave", "Film4", "BBC Three", "BBC Four", "CBBC", "CBeebies", "Quest", "Al Jazeera English", "TalkTV"],
+  "us": ["ABC News", "CBS News", "NBC News", "FOX Weather", "Bloomberg", "CNN", "Reuters", "Newsmax", "PBS", "Court TV", "TBN", "Pluto", "Bounce TV", "MeTV", "Comet", "Charge!", "Weather Channel", "Scripps News", "LiveNOW from FOX", "NASA"],
+  "fr": ["TF1", "France 2", "France 3", "M6", "France 5", "Arte", "C8", "W9", "TMC", "TFX", "BFM TV", "franceinfo", "LCI", "CNews", "France 24", "6ter", "Gulli", "RMC Découverte", "Chérie 25", "L'Equipe"]
+}

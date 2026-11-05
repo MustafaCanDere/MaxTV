@@ -90,6 +90,7 @@ public class PlayerActivity extends Activity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 prepared = true;
+                Popular.countWatch(PlayerActivity.this, current());
                 handler.removeCallbacks(timeout);
                 loading.setVisibility(View.GONE);
                 video.start();

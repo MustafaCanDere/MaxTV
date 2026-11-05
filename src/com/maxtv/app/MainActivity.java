@@ -166,6 +166,7 @@ public class MainActivity extends Activity {
         isTv = getPackageManager().hasSystemFeature("android.software.leanback");
         showRegions();
         Updater.checkOnStart(this);
+        Popular.refresh(this);
     }
 
     private boolean isTv = true;
@@ -280,6 +281,18 @@ public class MainActivity extends Activity {
         hint.setText("Geri: bölge seçimine dön");
         tiles.clear();
         tileData.clear();
+        if (channels != null) {
+            int pop = Popular.popular(this, region[2], channels).size();
+            if (pop > 0) {
+                tiles.add(new String[]{"🔥", "En popüler", "İlk " + pop + " kanal"});
+                tileData.add(new String[]{"🔥", "En popüler", "popular:", ""});
+            }
+            int mine = Popular.mostWatched(this, channels).size();
+            if (mine > 0) {
+                tiles.add(new String[]{"🕘", "En çok izlediklerim", mine + " kanal"});
+                tileData.add(new String[]{"🕘", "En çok izlediklerim", "mine:", ""});
+            }
+        }
         for (String[] c : CATEGORIES) {
             if (channels == null) {
                 tiles.add(new String[]{c[0], c[1], c[2].length() == 0 ? "çok büyük liste" : ""});
@@ -308,6 +321,10 @@ public class MainActivity extends Activity {
                     showChannels(channels);
                 }
             });
+        } else if (c[2].equals("popular:")) {
+            showChannels(Popular.popular(this, region[2], regionChannels));
+        } else if (c[2].equals("mine:")) {
+            showChannels(Popular.mostWatched(this, regionChannels));
         } else {
             showChannels(c[3].length() == 0 ? regionChannels : filterByCategory(regionChannels, c));
         }
