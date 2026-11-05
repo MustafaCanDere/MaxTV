@@ -4,8 +4,12 @@
 Android TV için sade bir kanal oynatıcıdır. İnternetteki herkese açık ve **ücretsiz** yayınların listelerini
 (iptv-org topluluk listeleri) indirir ve kumandayla izlemenizi sağlar.
 
-Hazır listeler: Türkiye, Türkçe (tüm ülkeler), Haber, Spor, Çocuk, Müzik, Film, Belgesel, Dünya (tümü, binlerce kanal),
-★ Favoriler, ve **Kendi listem (URL)**: yasal olarak erişim hakkınız olan herhangi bir M3U adresi.
+Kullanımı adım adım:
+1. **Bölge seçin:** Türkiye, Türkçe yayınlar, Azerbaycan, Almanya, İngiltere, Amerika, Fransa, Tüm dünya, Favorilerim veya Kendi listem.
+2. **Ne izlemek istediğinizi seçin:** Haber, Spor, Çocuk, Film, Dizi, Eğlence, Müzik, Belgesel… (her kutuda kaç kanal olduğu yazar).
+3. **Kanalı seçip OK'a basın.** Geri tuşu her zaman bir önceki adıma döner.
+
+Ana ekrandaki **Devam et** kutusu en son izlediğiniz kanalı tek tuşla açar.
 
 > Not: beIN Sports, S Sport, Digiturk/D-Smart/Tivibu gibi ücretli kanallar bu listelerde yoktur ve olmamalıdır.
 > Bunlar için o servisin kendi uygulaması ve aboneliği gerekir. Listelerdeki bazı yayınlar zaman zaman kapanabilir
@@ -29,6 +33,8 @@ Hazır listeler: Türkiye, Türkçe (tüm ülkeler), Haber, Spor, Çocuk, Müzik
 ## Kumanda tuşları
 | Ekran | Tuş | İşlev |
 |---|---|---|
+| Seçim ekranları | Yön tuşları + OK | Bölge / kategori seç |
+| Her yerde | Geri | Bir önceki adıma dön |
 | Liste | OK | Kanalı aç |
 | Liste | OK'a uzun bas veya MENU | Favorilere ekle/çıkar |
 | İzlerken | ▲ / CH+ | Sonraki kanal |

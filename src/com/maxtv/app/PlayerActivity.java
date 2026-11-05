@@ -100,6 +100,7 @@ public class PlayerActivity extends Activity {
         prepared = false;
         handler.removeCallbacks(timeout);
         Channel c = current();
+        ChannelStore.prefs(this).edit().putString("lastChannel", c.serialize()).apply();
         video.stopPlayback();
         loading.setVisibility(View.VISIBLE);
         showOverlay(null);

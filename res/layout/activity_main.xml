@@ -18,18 +18,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Max TV"
-            android:textColor="@color/text"
-            android:textSize="28sp"
+            android:textColor="@color/accent"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/status"
+            android:id="@+id/breadcrumb"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
+            android:layout_marginLeft="20dp"
             android:textColor="@color/subtext"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:singleLine="true"
             android:ellipsize="end" />
 
@@ -41,30 +41,52 @@
             android:visibility="gone" />
     </LinearLayout>
 
-    <HorizontalScrollView
+    <TextView
+        android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:scrollbars="none">
+        android:layout_marginTop="10dp"
+        android:textColor="@color/text"
+        android:textSize="32sp"
+        android:textStyle="bold" />
 
-        <LinearLayout
-            android:id="@+id/sources"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" />
-    </HorizontalScrollView>
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/subtext"
+        android:textSize="16sp"
+        android:singleLine="true"
+        android:ellipsize="end" />
+
+    <GridView
+        android:id="@+id/grid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="14dp"
+        android:numColumns="4"
+        android:horizontalSpacing="16dp"
+        android:verticalSpacing="16dp"
+        android:stretchMode="columnWidth"
+        android:listSelector="@drawable/tile_selector"
+        android:drawSelectorOnTop="true"
+        android:clipToPadding="false"
+        android:padding="6dp" />
 
     <EditText
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:hint="Kanal ara…"
+        android:layout_marginTop="10dp"
+        android:hint="🔍 Kanal ara (yazmak için seçip OK'a basın)"
         android:textColorHint="@color/subtext"
         android:textColor="@color/text"
         android:singleLine="true"
         android:imeOptions="actionSearch"
-        android:inputType="text" />
+        android:inputType="text"
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/list"
@@ -73,16 +95,16 @@
         android:layout_weight="1"
         android:layout_marginTop="8dp"
         android:divider="@null"
-        android:dividerHeight="2dp"
+        android:dividerHeight="4dp"
         android:listSelector="@drawable/list_selector"
         android:drawSelectorOnTop="false"
-        android:fastScrollEnabled="true" />
+        android:visibility="gone" />
 
     <TextView
+        android:id="@+id/hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:text="OK: izle   •   OK'a uzun bas: favorilere ekle/çıkar   •   İzlerken ▲▼: kanal değiştir"
+        android:layout_marginTop="8dp"
         android:textColor="@color/subtext"
-        android:textSize="13sp" />
+        android:textSize="15sp" />
 </LinearLayout>
