@@ -1,5 +1,7 @@
 # Max TV kurulum ve kullanım rehberi
 
+**APK indir:** https://github.com/MustafaCanDere/maxtv/raw/main/MaxTV.apk
+
 ## Ne yapar?
 Android TV için sade bir kanal oynatıcıdır. İnternetteki herkese açık ve **ücretsiz** yayınların listelerini
 (iptv-org topluluk listeleri) indirir ve kumandayla izlemenizi sağlar.
