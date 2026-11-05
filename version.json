@@ -1,6 +1,6 @@
 {
-  "versionCode": 3,
-  "versionName": "1.2",
+  "versionCode": 4,
+  "versionName": "1.3",
   "apk": "https://github.com/MustafaCanDere/MaxTV/raw/main/MaxTV.apk",
-  "notes": "Otomatik güncelleme, kanal logoları, yeni görünüm ve telefon desteği."
+  "notes": "Yeni: YouTube canlı yayınları (haber, yemek, çocuk, belgesel, müzik)."
 }

@@ -1,0 +1,23 @@
+[
+  {"group": "Haber", "name": "TRT Haber", "url": "https://www.youtube.com/@trthaber/live"},
+  {"group": "Haber", "name": "Habertürk", "url": "https://www.youtube.com/@haberturktv/live"},
+  {"group": "Haber", "name": "NTV", "url": "https://www.youtube.com/@ntv/live"},
+  {"group": "Haber", "name": "CNN TÜRK", "url": "https://www.youtube.com/@cnnturk/live"},
+  {"group": "Haber", "name": "Halk TV", "url": "https://www.youtube.com/@halktv/live"},
+  {"group": "Haber", "name": "Sözcü TV", "url": "https://www.youtube.com/@sozcutelevizyonu/live"},
+  {"group": "Haber", "name": "TV100", "url": "https://www.youtube.com/@tv100/live"},
+  {"group": "Haber", "name": "A Haber", "url": "https://www.youtube.com/@ahaber/live"},
+  {"group": "Haber", "name": "TGRT Haber", "url": "https://www.youtube.com/@tgrthaber/live"},
+  {"group": "Dünya haberleri", "name": "Al Jazeera English", "url": "https://www.youtube.com/@aljazeeraenglish/live"},
+  {"group": "Dünya haberleri", "name": "DW News", "url": "https://www.youtube.com/@dwnews/live"},
+  {"group": "Dünya haberleri", "name": "France 24 English", "url": "https://www.youtube.com/@FRANCE24English/live"},
+  {"group": "Dünya haberleri", "name": "Sky News", "url": "https://www.youtube.com/@SkyNews/live"},
+  {"group": "Dünya haberleri", "name": "ABC News", "url": "https://www.youtube.com/@ABCNews/live"},
+  {"group": "Yemek", "name": "Food Network", "url": "https://www.youtube.com/@foodnetwork/live"},
+  {"group": "Yemek", "name": "Tasty", "url": "https://www.youtube.com/@buzzfeedtasty/live"},
+  {"group": "Çocuk", "name": "TRT Çocuk", "url": "https://www.youtube.com/@trtcocuk/live"},
+  {"group": "Çocuk", "name": "Pepee", "url": "https://www.youtube.com/@pepee/live"},
+  {"group": "Belgesel ve bilim", "name": "NASA", "url": "https://www.youtube.com/@NASA/live"},
+  {"group": "Belgesel ve bilim", "name": "Doğa kameraları (explore.org)", "url": "https://www.youtube.com/@ExploreLiveNatureCams/live"},
+  {"group": "Müzik", "name": "Lofi Girl", "url": "https://www.youtube.com/@LofiGirl/live"}
+]

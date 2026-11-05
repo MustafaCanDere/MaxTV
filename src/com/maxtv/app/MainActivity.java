@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -53,6 +54,7 @@ public class MainActivity extends Activity {
             {"🇺🇸", "Amerika", BASE + "countries/us.m3u"},
             {"🇫🇷", "Fransa", BASE + "countries/fr.m3u"},
             {"🌍", "Tüm dünya", "world:"},
+            {"📺", "YouTube canlı", "youtube:"},
             {"⭐", "Favorilerim", "fav:"},
             {"🔗", "Kendi listem", "custom:"},
             {"🔄", "Güncelleme", "update:"},
@@ -236,6 +238,12 @@ public class MainActivity extends Activity {
             if (favorites.isEmpty()) {
                 status.setText("Henüz favori yok. Bir kanalın üzerinde OK'a uzun basarak ekleyebilirsiniz.");
             }
+            return;
+        }
+        if (src.equals("youtube:")) {
+            skippedCategory = true;
+            prepareChannelScreen();
+            loadYoutube();
             return;
         }
         if (src.equals("custom:")) {
@@ -469,8 +477,98 @@ public class MainActivity extends Activity {
         }
     }
 
+    /** YouTube canlı yayın listesi GitHub'dan gelir, böylece uygulamayı güncellemeden liste değiştirilebilir. */
+    private static final String YOUTUBE_URL = "https://github.com/MustafaCanDere/MaxTV/raw/main/youtube.json";
+
+    private void loadYoutube() {
+        final int token = ++loadToken;
+        progress.setVisibility(View.VISIBLE);
+        status.setText("YouTube listesi yükleniyor…");
+        final File cache = new File(getCacheDir(), "youtube.json");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String json = null;
+                try {
+                    Net.download(YOUTUBE_URL + "?t=" + System.currentTimeMillis(), cache, null);
+                } catch (Exception ignored) {
+                }
+                try {
+                    if (cache.exists()) json = readAll(new FileInputStream(cache));
+                } catch (Exception ignored) {
+                }
+                if (json == null) {
+                    try {
+                        json = readAll(getResources().openRawResource(R.raw.youtube));
+                    } catch (Exception ignored) {
+                    }
+                }
+                final List<Channel> out = new ArrayList<Channel>();
+                try {
+                    org.json.JSONArray arr = new org.json.JSONArray(json);
+                    for (int i = 0; i < arr.length(); i++) {
+                        org.json.JSONObject o = arr.getJSONObject(i);
+                        Channel c = new Channel();
+                        c.name = o.optString("name");
+                        c.url = o.optString("url");
+                        c.group = "YouTube • " + o.optString("group");
+                        c.logo = o.optString("logo", "");
+                        if (c.url.length() > 0) out.add(c);
+                    }
+                } catch (Exception ignored) {
+                }
+                main.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (token != loadToken) return;
+                        progress.setVisibility(View.GONE);
+                        showChannels(out);
+                        status.setText(out.size() + " canlı yayın • Seçince YouTube uygulamasında açılır");
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private static String readAll(InputStream in) throws IOException {
+        try {
+            java.io.ByteArrayOutputStream b = new java.io.ByteArrayOutputStream();
+            byte[] buf = new byte[8192];
+            int n;
+            while ((n = in.read(buf)) > 0) b.write(buf, 0, n);
+            return b.toString("UTF-8");
+        } finally {
+            in.close();
+        }
+    }
+
+    private static boolean isYoutube(Channel c) {
+        return c.url.contains("youtube.com/") || c.url.contains("youtu.be/");
+    }
+
+    private void openYoutube(Channel c) {
+        Uri uri = Uri.parse(c.url);
+        String[] pkgs = isTv
+                ? new String[]{"com.google.android.youtube.tv", "com.google.android.youtube", null}
+                : new String[]{"com.google.android.youtube", null};
+        for (String pkg : pkgs) {
+            Intent i = new Intent(Intent.ACTION_VIEW, uri);
+            if (pkg != null) i.setPackage(pkg);
+            try {
+                startActivity(i);
+                return;
+            } catch (Exception ignored) {
+            }
+        }
+        Toast.makeText(this, "YouTube uygulaması açılamadı.", Toast.LENGTH_LONG).show();
+    }
+
     private void play(int position) {
         if (position < 0 || position >= shown.size()) return;
+        if (isYoutube(shown.get(position))) {
+            openYoutube(shown.get(position));
+            return;
+        }
         ChannelStore.playlist = new ArrayList<Channel>(shown);
         ChannelStore.numbers = new ArrayList<Integer>(shownNumbers);
         ChannelStore.index = position;

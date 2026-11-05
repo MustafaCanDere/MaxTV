@@ -173,7 +173,10 @@ public class PlayerActivity extends Activity {
     private void step(int delta) {
         int size = ChannelStore.playlist.size();
         if (size == 0) return;
-        ChannelStore.index = ((ChannelStore.index + delta) % size + size) % size;
+        for (int tries = 0; tries < size; tries++) {
+            ChannelStore.index = ((ChannelStore.index + delta) % size + size) % size;
+            if (!current().url.contains("youtube.com/")) break; // YouTube kayıtları burada oynatılamaz
+        }
         playCurrent();
     }
 
