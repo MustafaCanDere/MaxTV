@@ -25,7 +25,8 @@ public class PlayerActivity extends Activity {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private VideoView video;
-    private ProgressBar loading;
+    private View loading;
+    private TextView numberBadge, nextLabel;
     private View overlay;
     private TextView title, info, numberInput;
     private String typedNumber = "";
@@ -52,7 +53,9 @@ public class PlayerActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_player);
         video = (VideoView) findViewById(R.id.video);
-        loading = (ProgressBar) findViewById(R.id.loading);
+        loading = findViewById(R.id.loading);
+        numberBadge = (TextView) findViewById(R.id.number);
+        nextLabel = (TextView) findViewById(R.id.next);
         overlay = findViewById(R.id.overlay);
         title = (TextView) findViewById(R.id.title);
         info = (TextView) findViewById(R.id.info);
@@ -152,13 +155,22 @@ public class PlayerActivity extends Activity {
         Channel c = current();
         int number = ChannelStore.numbers.size() > ChannelStore.index
                 ? ChannelStore.numbers.get(ChannelStore.index) : ChannelStore.index + 1;
-        title.setText(number + "  " + c.name);
+        title.setText(c.name);
+        numberBadge.setText("KANAL " + number);
+        int size = ChannelStore.playlist.size();
+        if (size > 1) {
+            Channel n = ChannelStore.playlist.get((ChannelStore.index + 1) % size);
+            nextLabel.setText("Sonraki ▸ " + n.name);
+            nextLabel.setVisibility(View.VISIBLE);
+        } else {
+            nextLabel.setVisibility(View.GONE);
+        }
         ImageLoader.load(logo, c.logo, R.mipmap.ic_launcher, 192);
         String text = c.group.length() > 0 ? c.group : "";
         if (message != null) text = message;
-        else text = text.replace(";", " • ") + (text.length() > 0 ? "   •   " : "")
-                + (isTv ? "▲▼ kanal değiştir   •   OK bilgi   •   Geri: liste"
-                        : "Kaydır: kanal değiştir   •   Dokun: bilgi");
+        else text = text.replace(";", " • ") + (text.length() > 0 ? "    ·    " : "")
+                + (isTv ? "▲▼ kanal   ·   OK bilgi   ·   Geri liste"
+                        : "Kaydır: kanal   ·   Dokun: bilgi");
         info.setText(text);
         overlay.setVisibility(View.VISIBLE);
         handler.removeCallbacks(hideOverlay);

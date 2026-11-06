@@ -1,6 +1,6 @@
 {
-  "versionCode": 5,
-  "versionName": "1.4",
+  "versionCode": 6,
+  "versionName": "1.5",
   "apk": "https://github.com/MustafaCanDere/MaxTV/raw/main/MaxTV.apk",
-  "notes": "Yeni: her ülkede \"En popüler\" kanallar ve \"En çok izlediklerim\" kategorileri."
+  "notes": "Yeni modern arayüz: cam efektli kutular, renkli odak, yeni kanal kartları ve yeni oynatıcı paneli."
 }

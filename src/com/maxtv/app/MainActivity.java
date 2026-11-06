@@ -163,6 +163,21 @@ public class MainActivity extends Activity {
             }
         });
 
+        list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            View lastRow;
+            @Override
+            public void onItemSelected(AdapterView<?> p, View v, int position, long id) {
+                if (lastRow != null && lastRow != v) zoom(lastRow, 1f);
+                if (v != null) zoom(v, 1.03f);
+                lastRow = v;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> p) {
+                if (lastRow != null) zoom(lastRow, 1f);
+                lastRow = null;
+            }
+        });
+
         isTv = getPackageManager().hasSystemFeature("android.software.leanback");
         showRegions();
         Updater.checkOnStart(this);
@@ -692,7 +707,12 @@ public class MainActivity extends Activity {
             ((TextView) v.findViewById(R.id.number)).setText(String.valueOf(shownNumbers.get(position)));
             String name = favorites.containsKey(c.url) ? "★ " + c.name : c.name;
             ((TextView) v.findViewById(R.id.name)).setText(name);
-            ((TextView) v.findViewById(R.id.group)).setText(c.group.replace(";", " • "));
+            TextView group = (TextView) v.findViewById(R.id.group);
+            group.setText(c.group.replace(";", " • "));
+            group.setVisibility(c.group.length() == 0 ? View.GONE : View.VISIBLE);
+            ((TextView) v.findViewById(R.id.badge)).setText(isYoutube(c) ? "▶ YOUTUBE" : "● CANLI");
+            v.setScaleX(1f);
+            v.setScaleY(1f);
             ImageLoader.load((ImageView) v.findViewById(R.id.logo), c.logo, R.mipmap.ic_launcher, 144);
             return v;
         }
