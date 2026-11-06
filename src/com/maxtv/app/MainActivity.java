@@ -153,7 +153,7 @@ public class MainActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> p, View v, int position, long id) {
                 if (lastSelected != null && lastSelected != v) zoom(lastSelected, 1f);
-                if (v != null) zoom(v, 1.08f);
+                if (v != null) zoom(v, 1.05f);
                 lastSelected = v;
             }
             @Override
@@ -168,7 +168,7 @@ public class MainActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> p, View v, int position, long id) {
                 if (lastRow != null && lastRow != v) zoom(lastRow, 1f);
-                if (v != null) zoom(v, 1.03f);
+                if (v != null) zoom(v, 1.0f);
                 lastRow = v;
             }
             @Override
@@ -217,7 +217,7 @@ public class MainActivity extends Activity {
         loadToken++; // süren indirmeyi yok say
         progress.setVisibility(View.GONE);
         breadcrumb.setText("");
-        question.setText("Nereden kanal izlemek istersiniz?");
+        question.setText("Nereden izlemek istersiniz?");
         status.setText(isTv ? "Yön tuşlarıyla seçin, OK'a basın." : "Bir kutuya dokunun.");
         hint.setText(isTv ? "Geri: çıkış" : "");
         tiles.clear();
@@ -276,7 +276,7 @@ public class MainActivity extends Activity {
         // Ülke/dil listesi: önce indir, sonra her kategoride kaç kanal var göster
         step = STEP_CATEGORY;
         breadcrumb.setText(r[1]);
-        question.setText("Ne tür bir şey izlemek istersiniz?");
+        question.setText("Ne izlemek istersiniz?");
         tiles.clear();
         tileData.clear();
         tileAdapter.notifyDataSetChanged();
@@ -292,7 +292,7 @@ public class MainActivity extends Activity {
     private void showCategories(List<Channel> channels) {
         step = STEP_CATEGORY;
         breadcrumb.setText(region[1]);
-        question.setText("Ne tür bir şey izlemek istersiniz?");
+        question.setText("Ne izlemek istersiniz?");
         hint.setText("Geri: bölge seçimine dön");
         tiles.clear();
         tileData.clear();
@@ -368,8 +368,8 @@ public class MainActivity extends Activity {
         breadcrumb.setText(crumb);
         question.setText("Kanal seçin");
         hint.setText(isTv
-                ? "OK: izle   •   OK'a uzun bas: favori ★   •   Geri: " + (skippedCategory ? "bölge seçimi" : "kategori seçimi")
-                : "Dokun: izle   •   Uzun bas: favori ★");
+                ? "OK  izle    ·    OK basılı tut  favori    ·    Geri  " + (skippedCategory ? "bölge seçimi" : "kategori seçimi")
+                : "Dokun  izle    ·    Basılı tut  favori");
         grid.setVisibility(View.GONE);
         list.setVisibility(View.VISIBLE);
         search.setVisibility(View.VISIBLE);
@@ -708,12 +708,12 @@ public class MainActivity extends Activity {
             String name = favorites.containsKey(c.url) ? "★ " + c.name : c.name;
             ((TextView) v.findViewById(R.id.name)).setText(name);
             TextView group = (TextView) v.findViewById(R.id.group);
-            group.setText(c.group.replace(";", " • "));
-            group.setVisibility(c.group.length() == 0 ? View.GONE : View.VISIBLE);
+            group.setText(isYoutube(c) ? "YouTube" : c.group.replace(";", " · ").replace("YouTube • ", ""));
+            group.setVisibility(group.getText().length() == 0 ? View.GONE : View.VISIBLE);
             ((TextView) v.findViewById(R.id.badge)).setText(isYoutube(c) ? "▶ YOUTUBE" : "● CANLI");
             v.setScaleX(1f);
             v.setScaleY(1f);
-            ImageLoader.load((ImageView) v.findViewById(R.id.logo), c.logo, R.mipmap.ic_launcher, 144);
+            ImageLoader.load((ImageView) v.findViewById(R.id.logo), c.logo, R.drawable.transparent_selector, 144);
             return v;
         }
     }

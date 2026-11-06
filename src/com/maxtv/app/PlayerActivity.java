@@ -156,16 +156,16 @@ public class PlayerActivity extends Activity {
         int number = ChannelStore.numbers.size() > ChannelStore.index
                 ? ChannelStore.numbers.get(ChannelStore.index) : ChannelStore.index + 1;
         title.setText(c.name);
-        numberBadge.setText("KANAL " + number);
+        numberBadge.setText("Kanal " + number + "   ·   ● Canlı");
         int size = ChannelStore.playlist.size();
         if (size > 1) {
             Channel n = ChannelStore.playlist.get((ChannelStore.index + 1) % size);
-            nextLabel.setText("Sonraki ▸ " + n.name);
+            nextLabel.setText("Sonraki: " + n.name);
             nextLabel.setVisibility(View.VISIBLE);
         } else {
             nextLabel.setVisibility(View.GONE);
         }
-        ImageLoader.load(logo, c.logo, R.mipmap.ic_launcher, 192);
+        ImageLoader.load(logo, c.logo, R.drawable.transparent_selector, 192);
         String text = c.group.length() > 0 ? c.group : "";
         if (message != null) text = message;
         else text = text.replace(";", " • ") + (text.length() > 0 ? "    ·    " : "")

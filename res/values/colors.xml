@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg">#FF070A14</color>
-    <color name="panel">#FF161C2E</color>
-    <color name="glass">#1AFFFFFF</color>
-    <color name="glass_stroke">#22FFFFFF</color>
-    <color name="focus">#FF6C5CE7</color>
-    <color name="focus2">#FF00B4FF</color>
-    <color name="selected">#FF24476E</color>
-    <color name="accent">#FF8F7BFF</color>
-    <color name="live">#FFFF3B5C</color>
-    <color name="text">#FFFFFFFF</color>
-    <color name="subtext">#FF9AA4BF</color>
+    <color name="bg">#FF0F1014</color>
+    <color name="panel">#FF1B1D23</color>
+    <color name="accent">#FFFFFFFF</color>
+    <color name="live">#FFFF4D5E</color>
+    <color name="text">#FFF2F3F5</color>
+    <color name="subtext">#FF8B909A</color>
 </resources>

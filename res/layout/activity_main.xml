@@ -6,9 +6,8 @@
     android:paddingLeft="@dimen/pad_h"
     android:paddingRight="@dimen/pad_h"
     android:paddingTop="@dimen/pad_v"
-    android:paddingBottom="12dp">
+    android:paddingBottom="14dp">
 
-    <!-- Üst çubuk -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,15 +17,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/pill_accent"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            android:text="▶  MAX TV"
-            android:textColor="#FFFFFFFF"
-            android:textSize="17sp"
-            android:letterSpacing="0.15"
+            android:text="Max TV"
+            android:textColor="@color/text"
+            android:textSize="20sp"
             android:fontFamily="sans-serif-medium" />
 
         <TextView
@@ -34,10 +27,9 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
+            android:layout_marginLeft="14dp"
             android:textColor="@color/subtext"
-            android:textSize="17sp"
-            android:fontFamily="sans-serif-medium"
+            android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="end" />
 
@@ -49,47 +41,30 @@
             android:layout_marginRight="14dp"
             android:visibility="gone" />
 
-        <LinearLayout
+        <TextClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="right">
-
-            <TextClock
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:format12Hour="HH:mm"
-                android:format24Hour="HH:mm"
-                android:textColor="@color/text"
-                android:textSize="26sp"
-                android:fontFamily="sans-serif-light" />
-
-            <TextClock
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:format12Hour="EEEE, d MMMM"
-                android:format24Hour="EEEE, d MMMM"
-                android:textColor="@color/subtext"
-                android:textSize="12sp" />
-        </LinearLayout>
+            android:format12Hour="HH:mm"
+            android:format24Hour="HH:mm"
+            android:textColor="@color/text"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="28dp"
         android:textColor="@color/text"
-        android:textSize="@dimen/question"
-        android:fontFamily="sans-serif-light" />
+        android:textSize="@dimen/question" />
 
     <TextView
         android:id="@+id/status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="4dp"
         android:textColor="@color/subtext"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:singleLine="true"
         android:ellipsize="end" />
 
@@ -98,33 +73,33 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:numColumns="auto_fit"
         android:columnWidth="@dimen/tile_col"
-        android:horizontalSpacing="18dp"
-        android:verticalSpacing="18dp"
+        android:horizontalSpacing="14dp"
+        android:verticalSpacing="14dp"
         android:stretchMode="columnWidth"
         android:listSelector="@drawable/transparent_selector"
         android:drawSelectorOnTop="false"
         android:clipToPadding="false"
         android:clipChildren="false"
         android:scrollbars="none"
-        android:padding="10dp" />
+        android:padding="8dp" />
 
     <EditText
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/card_bg"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:hint="🔍  Kanal ara"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/search_bg"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:hint="Kanal ara"
         android:textColorHint="@color/subtext"
         android:textColor="@color/text"
-        android:textSize="17sp"
+        android:textSize="16sp"
         android:singleLine="true"
         android:imeOptions="actionSearch"
         android:inputType="text"
@@ -137,24 +112,18 @@
         android:layout_weight="1"
         android:layout_marginTop="10dp"
         android:divider="@null"
-        android:dividerHeight="8dp"
+        android:dividerHeight="2dp"
         android:listSelector="@drawable/transparent_selector"
         android:drawSelectorOnTop="false"
         android:clipToPadding="false"
-        android:clipChildren="false"
         android:scrollbars="none"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
+        android:layout_marginTop="10dp"
         android:textColor="@color/subtext"
         android:textSize="13sp" />
 </LinearLayout>
